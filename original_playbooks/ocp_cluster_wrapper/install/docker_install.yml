@@ -1,0 +1,39 @@
+---
+- hosts: aws
+  name: Install Docker
+  become: yes
+
+  tasks:
+    - name: Install Yum utils 
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: Install Docker 
+      yum:
+        name: docker
+        enablerepo: rhui-REGION-rhel-server-extras
+        state: present
+
+    #todo: use lineinfile module
+    #- name: SED command
+      #command: sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
+   
+    - name: update /etc/sysconfig/docker OPTIONS
+      lineinfile:
+        path: /etc/sysconfig/docker
+        regexp: "^OPTIONS=.*"
+        line: "OPTIONS=\"--selinux-enabled --insecure-registry 172.30.0.0/16\""
+
+    - name: Enable Docker
+      service: 
+        name: docker
+        enabled: true
+
+    - name: Start Docker
+      service: 
+        name: docker
+        state: restarted
+
+
+# later add firewall info

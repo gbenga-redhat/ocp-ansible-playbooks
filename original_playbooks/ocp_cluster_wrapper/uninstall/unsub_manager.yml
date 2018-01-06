@@ -1,0 +1,19 @@
+---
+- hosts: aws
+  name: playbook to unsubscribe
+  become: yes
+  vars:
+    unsubscribe: "true"
+
+  tasks:
+    - name: check to see if system is already registered
+      command: subscription-manager status
+      register: sub_status
+      ignore_errors: true
+
+    - name: Unregister system
+      redhat_subscription:
+        state: absent
+      when: sub_status.rc == 0 and unsubscribe == "true"
+      #when: unsubscribe == "true"
+

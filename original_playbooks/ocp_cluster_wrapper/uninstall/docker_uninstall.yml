@@ -1,0 +1,32 @@
+---
+- hosts: aws
+  name: Uninstall Docker
+  become: yes
+  vars:
+    uninstall_docker: true
+
+  tasks:
+    - name: Stop Docker
+      service: 
+        name: docker
+        state: stopped
+      when: uninstall_docker == true
+
+    - name: Disable Docker
+      service: 
+        name: docker
+        enabled: false
+      when: uninstall_docker == true
+
+    - name: Uninstall Docker 
+      yum:
+        name: docker
+        state: absent
+      when: uninstall_docker == true
+
+    - name: Uninstall Yum utils 
+      yum:
+        name: yum-utils
+        state: absent
+      when: uninstall_docker == true
+# later add firewall info

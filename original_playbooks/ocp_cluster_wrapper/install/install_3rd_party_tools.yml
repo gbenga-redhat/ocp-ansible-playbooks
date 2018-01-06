@@ -1,0 +1,38 @@
+---
+- hosts: aws
+  name: Install 3rd party tools
+  become: yes
+
+  tasks:
+    - name: Install Git 
+      yum:
+        name: git
+        state: present
+
+    - name: Install Net Tools 
+      yum:
+        name: net-tools
+        state: present
+
+
+    - name: Install Bind Utils 
+      yum:
+        name: bind-utils
+        state: present
+
+    - name: Install IPTables Services 
+      yum:
+        name: iptables-services
+        state: present
+
+    - name: Install Bridge Utils 
+      yum:
+        name: bridge-utils
+        state: present
+
+    - name: Install Bash Completion 
+      yum:
+        name: bash-completion
+        state: present
+
+
