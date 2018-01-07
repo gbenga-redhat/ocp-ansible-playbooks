@@ -1,2 +1,5 @@
 ---
 # tasks file for openshift_cluster_up
+- name: Install and/or Start OpenShift cluster
+  import_tasks: ocp_cluster_up.yml
+  when: install_cluster == true

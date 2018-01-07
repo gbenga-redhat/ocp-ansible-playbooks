@@ -1,0 +1,30 @@
+- name: Uninstall Git 
+  yum:
+    name: git
+    state: absent
+#  when: uninstall_3rdparty == true
+
+- name: Uninstall Net Tools 
+  yum:
+    name: net-tools
+    state: absent
+
+- name: Uninstall Bind Utils 
+  yum:
+    name: bind-utils
+    state: absent
+
+- name: Uninstall IPTables Services 
+  yum:
+    name: iptables-services
+    state: absent
+
+- name: Uninstall Bridge Utils 
+  yum:
+    name: bridge-utils
+    state: absent
+
+- name: Uninstall Bash Completion 
+  yum:
+    name: bash-completion
+    state: absent

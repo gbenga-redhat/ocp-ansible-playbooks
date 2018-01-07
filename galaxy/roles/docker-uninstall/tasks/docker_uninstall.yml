@@ -1,0 +1,21 @@
+- name: Stop Docker
+  service: 
+    name: docker
+    state: stopped
+#  when: uninstall_docker == true
+
+- name: Disable Docker
+  service: 
+    name: docker
+    enabled: false
+
+- name: Uninstall Docker 
+  yum:
+    name: docker
+    state: absent
+
+- name: Uninstall Yum utils 
+  yum:
+    name: yum-utils
+    state: absent
+# later add firewall info

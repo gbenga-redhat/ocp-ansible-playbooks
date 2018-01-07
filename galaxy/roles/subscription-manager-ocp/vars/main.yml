@@ -1,0 +1,11 @@
+---
+# vars file for subscription-manager-ocp
+vars:
+  rhn_user: user
+  #rhn_pass: blah#
+  rhn_pool_id: randomPool23232
+  #TODO: make this just version number
+ # ocp_repos: rhel-7-server-ose-3.6-rpms
+  ocp_repos: rhel-7-server-ose-3.5-rpms
+  #ocp_repos: rhel-7-server-ose-3.7-rpms
+

@@ -8,6 +8,7 @@
 
   tasks:
     - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+    - debug: msg={{ cluster_name }}
 
     - name: Install atomic-openshift-clients
       yum:

@@ -1,0 +1,15 @@
+---
+- hosts: aws
+  name: Role-based playbook tear down complete OCP cluster on single AWS cluster and all dependencies
+  become: yes
+
+  roles:
+    - role: openshift_cluster_down
+      mode: "destroy"
+      yes_destroy: y
+    - role: docker-uninstall
+      uninstall_docker: true
+    - role: third-party-tools-uninstall
+      uninstall_3rdparty: true
+    - role: unsubscribe-manager-ocp
+      unsubscribe: "true"

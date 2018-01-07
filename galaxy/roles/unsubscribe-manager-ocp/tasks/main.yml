@@ -1,0 +1,12 @@
+---
+# tasks file for unsubscribe-manager-ocp
+- name: check to see if system is already registered
+  command: subscription-manager status
+  register: sub_status
+  ignore_errors: true
+
+- name: Unregister system
+  redhat_subscription:
+    state: absent
+  when: sub_status.rc == 0 and unsubscribe == "true"
+  #when: unsubscribe == "true"
