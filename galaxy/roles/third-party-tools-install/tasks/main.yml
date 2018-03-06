@@ -1,5 +1,10 @@
 ---
 # tasks file for third-party-tools-install
+- name: Install wget
+  yum:
+    name: wget
+    state: present
+
 - name: Install Git
   yum:
     name: git

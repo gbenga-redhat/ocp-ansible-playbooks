@@ -1,6 +1,6 @@
 # install
 # removed the -k. if needed, add it back
-ansible-playbook -u ec2-user --private-key $AWS_PEM_FILE -i ../hosts  install/subs_manager.yml --extra-vars "rhn_user={{ lookup ('env', 'RH_USER') }} rhn_pass={{ lookup ('env', 'RH_PASS') }} rhn_pool_id={{ lookup ('env', 'RH_POOL') }} ocp_repos=rhel-7-server-ose-3.5-rpms"
+ansible-playbook -u ec2-user --private-key $AWS_PEM_FILE -i ../hosts  install/subs_manager.yml --extra-vars "rhn_user={{ lookup ('env', 'RH_USER') }} rhn_pass={{ lookup ('env', 'RH_PASS') }} rhn_pool_id={{ lookup ('env', 'RH_POOL') }} ocp_repos=rhel-7-server-ose-3.7-rpms"
 ansible-playbook -u ec2-user --private-key $AWS_PEM_FILE -i ../hosts  install/install_3rd_party_tools.yml
 ansible-playbook -u ec2-user --private-key $AWS_PEM_FILE -i ../hosts  install/docker_install.yml 
 ansible-playbook -u ec2-user --private-key $AWS_PEM_FILE -i ../hosts  install/ocp_cluster_up.yml
