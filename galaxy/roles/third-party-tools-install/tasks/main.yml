@@ -34,3 +34,19 @@
   yum:
     name: bash-completion
     state: present
+
+#3.7 ??
+- name: Install kexec-tools
+  yum:
+    name: kexec-tools
+    state: present
+
+- name: Install sos 
+  yum:
+    name: sos
+    state: present
+
+- name: Install psacct 
+  yum:
+    name: psacct
+    state: present

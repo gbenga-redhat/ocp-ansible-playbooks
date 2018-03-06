@@ -15,6 +15,7 @@
 #- name: SED command
   #command: sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' /etc/sysconfig/docker
 
+#comment out for 3.7?
 - name: update /etc/sysconfig/docker OPTIONS
   lineinfile:
     path: /etc/sysconfig/docker

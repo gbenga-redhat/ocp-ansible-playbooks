@@ -28,3 +28,20 @@
   yum:
     name: bash-completion
     state: absent
+
+#3.7 ??
+- name: unInstall kexec-tools
+  yum:
+    name: kexec-tools
+    state: absent
+
+- name: unInstall sos
+  yum:
+    name: sos
+    state: absent
+
+- name: unInstall psacct
+  yum:
+    name: psacct
+    state: absent
+

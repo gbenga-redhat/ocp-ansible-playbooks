@@ -2,5 +2,5 @@
 
 Various ansible playbooks for OpenShift
 
-TODO: so far this has only been tested with OCP 3.5
-Update: 3/5/2017 - Now working for OCP 3.7
+tested with OCP 3.5 on RHEL 7.3
+tested with OCP 3.7 on RHEL 7.4
