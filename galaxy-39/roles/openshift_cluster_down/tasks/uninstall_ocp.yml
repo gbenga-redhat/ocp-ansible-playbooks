@@ -1,0 +1,76 @@
+#using shell instead of command to redirect the output
+- name: cluster destroy for {{ cluster_name }}
+  shell: ~/oc-cluster-wrapper/oc-cluster destroy {{ cluster_name }}  > ~/oc_cluster_down_results.txt
+  args:
+    stdin: "{{ yes_destroy }}"
+  ignore_errors: true
+#  when: mode == "destroy" 
+
+- name: echo {{ mode }} results
+  shell: cat ~/oc_cluster_down_results.txt
+  register: oc_cluster_down_results
+
+- name: debug
+  debug: msg={{ oc_cluster_down_results.stdout }}
+
+
+- name: remove .oc 
+  file:
+    state: absent
+    path: ~/.oc
+#  when: force_oc_rm == "true"
+
+- name: remove .kube 
+  file:
+    state: absent
+    path: ~/.kube
+#  when: force_oc_rm == "true"
+
+#todo: reverse bash completion when you get working..simple rm file
+#- name: enable bash completion
+#  shell: ~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash
+#- name: enable bash completion
+#  command: ~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash
+#- name: enable bash completion
+#  command: "~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash"
+
+
+- name: remove oc_cluster_wrapper from PATH and .bash_profile
+  lineinfile:
+    path: ~/.bash_profile
+    line: "PATH=$HOME/oc-cluster-wrapper:$PATH"
+    state: absent
+
+- name: remove EXTERNAL_IP from .bashrc 
+  lineinfile:
+    path: ~/.bashrc
+    regexp: "^export EXTERNAL_IP=*"
+    state: absent
+
+- name: remove OCP_WILDCARD_DOMAIN from .bashrc 
+  lineinfile:
+    path: ~/.bashrc
+    regexp: "^export OCP_WILDCARD_DOMAIN=*"
+    state: absent
+     
+ 
+- name: source .bash_profile 
+  shell: source ~/.bash_profile
+
+- name: source .bashrc 
+  shell: source ~/.bashrc
+
+#probably not necessary
+- name:  export PATH 
+  shell: export PATH 
+
+#existing cluster=up role exists here - https://github.com/chouseknecht/cluster-up-role
+- name: uninstall atomic-openshift-clients
+  yum:
+    name: atomic-openshift-clients 
+    state: absent
+
+- name: remove oc-cluster-wrapper 
+  file:
+    state: absent
+    path: ~/oc-cluster-wrapper

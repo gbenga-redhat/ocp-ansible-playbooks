@@ -1,0 +1,4 @@
+---
+# vars file for openshift_cluster_up
+vars:
+  cluster_name: ocp-cluster

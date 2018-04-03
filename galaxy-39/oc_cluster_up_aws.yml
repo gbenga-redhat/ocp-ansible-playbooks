@@ -1,0 +1,11 @@
+---
+- hosts: aws
+  name: Role-based playbook to install new OCP cluster on single newly provisioned AWS cluster
+  become: yes
+
+  roles:
+    - subscription-manager-ocp
+    - third-party-tools-install
+    - docker-install
+    - role: openshift_cluster_up
+      install_cluster: true

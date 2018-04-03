@@ -1,0 +1,4 @@
+---
+# vars file for third-party-tools-uninstall
+vars:
+  uninstall_3rdparty: true

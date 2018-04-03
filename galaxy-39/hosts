@@ -1,0 +1,4 @@
+[aws]
+node-1 ansible_host=13.58.45.25
+#node-2 ansible_host=18.219.224.43
+

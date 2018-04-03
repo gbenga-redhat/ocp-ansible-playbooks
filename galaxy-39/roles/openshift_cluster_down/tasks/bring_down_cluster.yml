@@ -1,0 +1,10 @@
+- name: cluster down
+  shell: ~/oc-cluster-wrapper/oc-cluster down > ~/oc_cluster_down_results.txt
+  ignore_errors: true
+
+- name: echo {{ mode }} results
+  shell: cat ~/oc_cluster_down_results.txt
+  register: oc_cluster_down_results
+
+- name: debug
+  debug: msg={{ oc_cluster_down_results.stdout }}
