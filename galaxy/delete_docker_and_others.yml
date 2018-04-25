@@ -1,0 +1,12 @@
+---
+- hosts: aws
+  name: Role-based playbook  delete docker and third-party tools
+  become: yes
+
+  roles:
+    - role: docker-uninstall
+      uninstall_docker: true
+    - role: third-party-tools-uninstall
+      uninstall_3rdparty: true
+    - role: unsubscribe-manager-ocp
+      unsubscribe: "true"
