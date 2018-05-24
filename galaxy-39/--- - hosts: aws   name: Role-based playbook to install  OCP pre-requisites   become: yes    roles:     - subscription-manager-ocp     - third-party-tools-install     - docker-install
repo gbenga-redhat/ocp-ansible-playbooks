@@ -1,9 +1,0 @@
----
-- hosts: aws
-  name: Role-based playbook to install  OCP pre-requisites
-  become: yes
-
-  roles:
-    - subscription-manager-ocp
-    - third-party-tools-install
-    - docker-install
