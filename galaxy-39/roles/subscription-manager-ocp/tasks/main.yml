@@ -10,12 +10,10 @@
   register: sub_status
   ignore_errors: true
 
-#- name:
-#  debug: msg={{rhn_user}}
-#- name:
-#  debug: msg={{rhn_pass}}
-#- name:
-#  debug: msg={{rhn_pool_id}}
+- name:
+  debug: msg={{rhn_user}}
+- name:
+  debug: msg={{rhn_pool_id}}
 - name:
   debug: msg={{ocp_repos}}
 
@@ -27,7 +25,7 @@
     #pool_ids: "{{ rhn_pool_id }}"
     pool: "{{ rhn_pool_id }}"
     # this force may not be needed
-    #force_register: yes
+    force_register: yes
   when: sub_status.rc == 1
 
 - name: Add Appropriate Repos (Disable)
