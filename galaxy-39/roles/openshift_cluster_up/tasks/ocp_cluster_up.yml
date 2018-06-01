@@ -104,7 +104,7 @@
 #  when: install_cluster == true
 
 - name: start cluster up using shell and output result to file
-  shell: ~/oc-cluster-wrapper/oc-cluster up {{ cluster_name }} --public-hostname {{ host_external_ip.stdout }} --routing-suffix apps.{{ host_external_ip.stdout }}.nip.io > ~/oc_cluster_up_results.txt
+  shell: ~/oc-cluster-wrapper/oc-cluster up {{ cluster_name }} --public-hostname {{ host_external_ip.stdout }} --routing-suffix apps.{{ host_external_ip.stdout }}.nip.io --metrics=true --logging=true > ~/oc_cluster_up_results.txt
   ignore_errors: true
 
 - name: echo results
