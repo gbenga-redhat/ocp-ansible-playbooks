@@ -114,6 +114,12 @@
 - name: debug
   debug: msg={{ oc_cluster_up_results.stdout }}
 
+- name:   login as cluster admin
+  shell: oc login -u system:admin
+
+- name:  update cluster admin role to include admin user
+  shell: oc adm policy add-cluster-role-to-user cluster-admin admin
+
 #when uninstalling need to delete all .oc , .kube folders?? or just use oc-cluster detroy..you can use a var to destroy or bring down
 
 #existing cluster=up role exists here - https://github.com/chouseknecht/cluster-up-role
