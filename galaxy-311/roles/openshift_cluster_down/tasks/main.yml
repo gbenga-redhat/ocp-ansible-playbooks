@@ -1,0 +1,13 @@
+---
+# tasks file for openshift_cluster_down
+- name: Task to bring down openshift cluster
+  import_tasks: bring_down_cluster.yml
+  when: mode == "down"
+
+- name: Task to destroy specific openshift cluster
+  import_tasks: destroy_cluster_only.yml
+  when: mode == "destroyClusterOnly"
+
+- name: Task to destroy and completely tear down ocp cluster and uninstall OCP
+  import_tasks: uninstall_ocp.yml
+  when: mode == "destroy"

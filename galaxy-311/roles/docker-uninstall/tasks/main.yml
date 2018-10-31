@@ -1,0 +1,5 @@
+---
+# tasks file for docker-uninstall
+- name: Uninstall docker
+  import_tasks: docker_uninstall.yml
+  uninstall_docker: true

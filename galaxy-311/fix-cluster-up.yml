@@ -1,0 +1,18 @@
+---
+- hosts: aws
+  name: hack to fix router after initial 39 install. just redo oc cluster up 
+  become: yes
+  vars:
+    # you can pass in variables
+    cluster_name: ocp-cluster
+
+
+  tasks:
+    - name: get host's external IP address
+      #command: curl --silent --fail http://ifconfig.me/ip
+      command: dig +short myip.opendns.com @resolver1.opendns.com
+      register: host_external_ip  # ip address now working below
+
+    - name: Rerun oc cluster up
+      shell: |
+

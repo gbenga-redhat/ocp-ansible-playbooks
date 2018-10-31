@@ -1,0 +1,119 @@
+- debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+- debug: msg={{ cluster_name }}
+
+- name: Install atomic-openshift-clients
+  yum:
+    name: atomic-openshift-clients 
+    state: present
+#  when: install_cluster == true
+
+#git clone https://github.com/openshift-evangelists/oc-cluster-wrapper
+- name: Git Clone oc-cluster-wrapper 
+  git:
+    repo: https://github.com/openshift-evangelists/oc-cluster-wrapper
+    dest: ~/oc-cluster-wrapper
+
+#todo: don't want to do this multiple times..may want to use a lineinfile to remove previous and then readd or replace only if it doesn't exist
+    #- name: Add oc_cluster_wrapper to path and add to .bash_profile
+    #  shell: echo 'PATH=$HOME/oc-cluster-wrapper:$PATH' >> ~/.bash_profile
+    #  when: install_cluster == true
+    #
+- name: first remove any existing export PATH from .bash_profile
+  lineinfile:
+    path: ~/.bash_profile
+    line: "export PATH"
+    state: absent
+
+- name: Add oc_cluster_wrapper to path and add to .bash_profile
+  lineinfile:
+    path: ~/.bash_profile
+    line: "PATH=$HOME/oc-cluster-wrapper:$PATH"
+
+- name: add export PATH back to .bash_profile
+  lineinfile:
+    path: ~/.bash_profile
+    line: "export PATH"
+
+# attempt to put bash completion command in bash_profile...may not be necessary for this
+# #comment out for now
+    #- name: enable bash completion
+      #shell: echo '~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash' >> ~/.bash_profile
+
+- name: source .bash_profile 
+  shell: source ~/.bash_profile
+
+    #probably not necessary
+- name:  export PATH 
+  shell: export PATH 
+
+
+#- name: enable bash completion
+#  shell: ~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash
+
+#- name: enable bash completion
+#  command: ~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash
+
+#- name: enable bash completion
+#  command: "~/oc-cluster-wrapper/oc-cluster completion bash > /etc/bash_completion.d/oc-cluster.bash"
+
+
+# - name: add EXTERNAL_IP
+  #shell: "echo 'export EXTERNAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)' >> ~/.bashrc && source ~/.bashrc"
+  #when: install_cluster == true
+# - name: add wildcard domain
+  #shell: "echo 'export OCP_WILDCARD_DOMAIN=apps.$EXTERNAL_IP.nip.io' >> ~/.bashrc && source ~/.bashrc"
+  #when: install_cluster == true
+- name: add EXTERNAL_IP to .bashrc
+  lineinfile:
+    path: ~/.bashrc
+    line: "export EXTERNAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)"
+
+- name: add OCP_WILDCARD_DOMAIN to .bashrc
+  lineinfile:
+    path: ~/.bashrc
+    line: "export OCP_WILDCARD_DOMAIN=apps.$EXTERNAL_IP.nip.io"
+
+- name: source .bashrc 
+  shell: source ~/.bashrc
+
+#- name: get public IP
+#  ipify_facts:
+#  register: public_ip
+#- name: output
+#  debug: msg={{ public_ip }}
+
+#- name: test public id and put in externaal ip 
+#  shell: echo {{ public_ip }} >>  ~/external_ip.txt
+
+
+ #cheating with curl, TODO: need a better way
+- name: get host's external IP address
+  #command: curl --silent --fail http://ifconfig.me/ip
+  command: dig +short myip.opendns.com @resolver1.opendns.com
+  register: host_external_ip  # ip address now working below
+
+- name: debug
+  debug: msg={{ host_external_ip.stdout }}
+
+#- name: trying again test public id and put in externaal ip 
+#  shell: echo {{ host_external_ip.stdout }} >>  ~/external_ip.txt
+
+#- name: start cluster up
+  #command: ~/oc-cluster-wrapper/oc-cluster up {{ cluster_name }} --public-hostname $EXTERNAL_IP --routing-suffix $OCP_WILDCARD_DOMAIN
+#  command: ~/oc-cluster-wrapper/oc-cluster up {{ cluster_name }} --public-hostname {{ host_external_ip.stdout }} --routing-suffix apps.{{ host_external_ip.stdout }}.nip.io > ~/oc_cluster_up_results.txt
+#  when: install_cluster == true
+
+- name: start cluster up using shell and output result to file
+  shell: oc cluster up {{ cluster_name }} --public-hostname {{ host_external_ip.stdout }} --routing-suffix apps.{{ host_external_ip.stdout }}.nip.io > ~/oc_cluster_up_results.txt
+  ignore_errors: true
+
+- name: echo results
+  shell: cat ~/oc_cluster_up_results.txt
+  register: oc_cluster_up_results
+
+- name: debug
+  debug: msg={{ oc_cluster_up_results.stdout }}
+
+#when uninstalling need to delete all .oc , .kube folders?? or just use oc-cluster detroy..you can use a var to destroy or bring down
+
+#existing cluster=up role exists here - https://github.com/chouseknecht/cluster-up-role

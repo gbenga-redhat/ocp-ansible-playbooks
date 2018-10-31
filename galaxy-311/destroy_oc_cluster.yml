@@ -1,0 +1,9 @@
+---
+- hosts: aws
+  name: Role-based playbook to destroy specific OCP cluster on single AWS cluster
+  become: yes
+
+  roles:
+    - role: openshift_cluster_down
+      mode: "destroyClusterOnly"
+      yes_destroy: y

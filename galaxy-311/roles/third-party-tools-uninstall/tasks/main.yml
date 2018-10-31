@@ -1,0 +1,5 @@
+---
+# tasks file for third-party-tools-uninstall
+- name: add tasks for uninstalling 3rd party tools
+  import_tasks: uninstall_3rd_party_tools.yml
+  when: uninstall_3rdparty == true

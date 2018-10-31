@@ -1,0 +1,8 @@
+---
+- hosts: aws
+  name: Role-based playbook to stop OCP cluster on single AWS cluster
+  become: yes
+
+  roles:
+    - role: openshift_cluster_down
+      mode: "down"

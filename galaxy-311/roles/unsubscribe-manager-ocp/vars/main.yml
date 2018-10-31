@@ -1,0 +1,4 @@
+---
+# vars file for unsubscribe-manager-ocp
+vars:
+  unsubscribe: "true"

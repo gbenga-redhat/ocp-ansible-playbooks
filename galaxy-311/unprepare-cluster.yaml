@@ -1,0 +1,9 @@
+---
+- hosts: aws
+  name: Role-based playbook to un-install  OCP pre-requisites
+  become: yes
+
+  roles:
+    - docker-uninstall
+    - third-party-tools-uninstall
+    - unsubscribe-manager-ocp

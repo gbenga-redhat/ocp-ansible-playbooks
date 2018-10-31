@@ -1,0 +1,4 @@
+---
+# vars file for docker-uninstall
+vars:
+  uninstall_docker: true

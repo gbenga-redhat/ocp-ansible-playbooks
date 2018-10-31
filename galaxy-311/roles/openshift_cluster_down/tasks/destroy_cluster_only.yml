@@ -1,0 +1,15 @@
+- name: cluster destroy for {{ cluster_name }}
+#using shell instead of command to redirect the output
+  shell: ~/oc-cluster-wrapper/oc-cluster destroy {{ cluster_name }}  > ~/oc_cluster_down_results.txt
+  args:
+    stdin: "{{ yes_destroy }}"
+  ignore_errors: true
+  #when: mode == "destroyClusterOnly"
+
+
+- name: echo {{ mode }} results
+  shell: cat ~/oc_cluster_down_results.txt
+  register: oc_cluster_down_results
+
+- name: debug
+  debug: msg={{ oc_cluster_down_results.stdout }}

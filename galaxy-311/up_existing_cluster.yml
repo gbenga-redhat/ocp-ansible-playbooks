@@ -1,0 +1,8 @@
+---
+- hosts: aws
+  name: Role-based playbook to bring up OCP cluster on single AWS cluster that has pre-requisites like docker etc installed
+  become: yes
+
+  roles:
+    - role: openshift_cluster_up
+      install_cluster: true
